@@ -202,7 +202,8 @@ def load_things_worker(ckan, thing, arguments,
                 continue
 
             act = 'update' if existing else 'create'
-            obj['_ckanapi'] = ''
+            #if thing == 'datasets':
+            #    obj['_ckanapi'] = ''
             try:
                 if existing:
                     r = ckan.call_action(thing_update, obj)

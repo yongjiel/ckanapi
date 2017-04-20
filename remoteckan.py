@@ -17,7 +17,8 @@ MY_SITES = ['localhost', '127.0.0.1', '[::1]']
 PARALLEL_LIMIT = 3
 
 import requests
-
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 class RemoteCKAN(object):
     """
@@ -83,7 +84,7 @@ class RemoteCKAN(object):
         return reverse_apicontroller_action(url, status, response)
 
     def _request_fn(self, url, data, headers, files, requests_kwargs):
-        r = requests.post(url, data=data, headers=headers, files=files, allow_redirects=False, **requests_kwargs)
+        r = requests.post(url, data=data, headers=headers, files=files, allow_redirects=False, verify=False, **requests_kwargs)
         # allow_redirects=False because: if a post is redirected (e.g. 301 due
         # to a http to https redirect), then the second request is made to the
         # new URL, but *without* the data. This gives a confusing "No request
@@ -92,6 +93,6 @@ class RemoteCKAN(object):
         return r.status_code, r.text
 
     def _request_fn_get(self, url, data_dict, headers, requests_kwargs):
-        r = requests.get(url, params=data_dict, headers=headers, **requests_kwargs)
+        r = requests.get(url, params=data_dict, headers=headers, verify=False, **requests_kwargs)
         return r.status_code, r.text
 
