@@ -1,6 +1,7 @@
-=============
+
+================================
 Changes from ckanapi version 3.6
-=============
+================================
 
 1. change _upload_resources function of cli/load.py:
 
